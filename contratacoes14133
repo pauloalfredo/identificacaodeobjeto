@@ -1,0 +1,58 @@
+    <option value="Não">Não</option>
+  </select>
+
+  <label for="valor">6. Valor estimado da contratação:</label>
+  <select id="valor">
+    <option value="">Selecione...</option>
+    <option value="50">Até R$ 50 mil</option>
+    <option value="100">Até R$ 100 mil</option>
+    <option value="acima">Acima disso</option>
+  </select>
+
+  <button onclick="analisar()">Analisar Contratação</button>
+
+  <div id="resultado"></div>
+
+  <script>
+    document.getElementById("objeto").addEventListener("change", function() {
+      document.getElementById("servicoExtra").style.display = this.value === "Serviços" ? "block" : "none";
+    });
+
+    function analisar() {
+      const objeto = document.getElementById("objeto").value;
+      const natureza = document.getElementById("natureza").value;
+      const continuo = document.getElementById("continuo").value;
+      const maoDeObra = document.getElementById("maoDeObra").value;
+      const fornecedor = document.getElementById("fornecedor").value;
+      const valor = document.getElementById("valor").value;
+
+      let resultado = "<strong>Resultado da Análise:</strong><br><br>";
+
+      if (objeto === "Serviços") {
+        resultado += `Tipo: Serviço ${continuo === "Sim" ? "contínuo" : "não contínuo"}`;
+        if (maoDeObra === "Sim") resultado += " com dedicação exclusiva de mão de obra";
+        resultado += ".<br>";
+      } else {
+        resultado += `Tipo: ${objeto}.<br>`;
+      }
+
+      if (fornecedor === "Não") {
+        resultado += "Modalidade sugerida: Inexigibilidade de licitação.";
+      } else if ((valor === "50" && objeto !== "Obras") || (valor === "100" && objeto === "Obras")) {
+        resultado += "Modalidade sugerida: Dispensa de licitação (art. 75).";
+      } else {
+        if (objeto === "Serviços" && natureza === "Comum") {
+          resultado += "Modalidade sugerida: Pregão Eletrônico.";
+        } else if (objeto === "Obras") {
+          resultado += "Modalidade sugerida: Concorrência.";
+        } else {
+          resultado += "Modalidade sugerida: Avaliar entre Concorrência, Pregão ou outro conforme o caso.";
+        }
+      }
+
+      document.getElementById("resultado").innerHTML = resultado;
+    }
+  </script>
+</body>
+</html>
+
