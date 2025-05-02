@@ -1,7 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checklist - Lei 14.133/2021</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; max-width: 800px; margin: auto; }
+    label { display: block; margin-top: 15px; font-weight: bold; }
+    select, button, input { width: 100%; padding: 10px; margin-top: 5px; }
+    #resultado { margin-top: 20px; padding: 15px; border: 1px solid #ccc; background-color: #f9f9f9; }
+  </style>
+</head>
+<body>
+  <h1>Checklist de Contratação - Lei 14.133/2021</h1>
+
+  <label for="descricao">1. Descreva o objeto da contratação:</label>
+  <input type="text" id="descricao" placeholder="Ex: Apoio administrativo, manutenção predial, etc.">
+
+  <label for="objeto">2. O que está sendo contratado?</label>
+  <select id="objeto">
+    <option value="">Selecione...</option>
+    <option value="bens">bens</option>
+    <option value="serviços">serviços</option>
+    <option value="obras">obras</option>
+    <option value="TIC">solução de TIC</option>
+    <option value="venda">venda de bem público</option>
+  </select>
+
+  <div id="servicoExtra" style="display: none;">
+    <label for="natureza">3. Qual a natureza do serviço?</label>
+    <select id="natureza">
+      <option value="">Selecione...</option>
+      <option value="comum">comum</option>
+      <option value="técnico especializado">técnico especializado</option>
+      <option value="intelectual">intelectual</option>
+    </select>
+
+    <label for="continuo">4. É serviço contínuo?</label>
+    <select id="continuo">
+      <option value="">Selecione...</option>
+      <option value="Sim">Sim</option>
+      <option value="Não">Não</option>
+    </select>
+
+    <label for="maoDeObra">5. Possui mão de obra exclusiva?</label>
+    <select id="maoDeObra">
+      <option value="">Selecione...</option>
+      <option value="Sim">Sim</option>
+      <option value="Não">Não</option>
+    </select>
+  </div>
+
+  <label for="vigencia">6. Qual a vigência do contrato?</label>
+  <select id="vigencia">
+    <option value="">Selecione...</option>
+    <option value="1">1 mês</option>
+    <option value="2">2 meses</option>
+    <option value="3">3 meses</option>
+    <option value="4">4 meses</option>
+    <option value="5">5 meses</option>
+    <option value="6">6 meses</option>
+    <option value="7">7 meses</option>
+    <option value="8">8 meses</option>
+    <option value="9">9 meses</option>
+    <option value="10">10 meses</option>
+    <option value="11">11 meses</option>
+    <option value="12">12 meses</option>
+    <option value="13">13 meses</option>
+    <option value="14">14 meses</option>
+    <option value="15">15 meses</option>
+    <option value="16">16 meses</option>
+    <option value="17">17 meses</option>
+    <option value="18">18 meses</option>
+    <option value="19">19 meses</option>
+    <option value="20">20 meses</option>
+    <option value="21">21 meses</option>
+    <option value="22">22 meses</option>
+    <option value="23">23 meses</option>
+    <option value="24">24 meses</option>
+    <option value="25">25 meses</option>
+    <option value="26">26 meses</option>
+    <option value="27">27 meses</option>
+    <option value="28">28 meses</option>
+    <option value="29">29 meses</option>
+    <option value="30">30 meses</option>
+    <option value="31">31 mês</option>
+    <option value="32">32 meses</option>
+    <option value="33">33 meses</option>
+    <option value="34">34 meses</option>
+    <option value="35">35 meses</option>
+    <option value="36">36 meses</option>
+    <option value="mais de 36">mais de 36 meses</option>
+  </select>
+
+  <label for="fornecedor">7. Há mais de um fornecedor?</label>
+  <select id="fornecedor">
+    <option value="">Selecione...</option>
+    <option value="Sim">Sim</option>
     <option value="Não">Não</option>
   </select>
 
-  <label for="valor">6. Valor estimado da contratação:</label>
+  <label for="valor">8. Valor estimado da contratação:</label>
   <select id="valor">
     <option value="">Selecione...</option>
     <option value="50">Até R$ 50 mil</option>
@@ -19,36 +118,31 @@
     });
 
     function analisar() {
+      const descricao = document.getElementById("descricao").value.trim();
       const objeto = document.getElementById("objeto").value;
       const natureza = document.getElementById("natureza").value;
       const continuo = document.getElementById("continuo").value;
       const maoDeObra = document.getElementById("maoDeObra").value;
       const fornecedor = document.getElementById("fornecedor").value;
       const valor = document.getElementById("valor").value;
+      const vigencia = document.getElementById("vigencia").value;
 
       let resultado = "<strong>Resultado da Análise:</strong><br><br>";
+      let tipoContratacao = "";
 
       if (objeto === "Serviços") {
-        resultado += `Tipo: Serviço ${continuo === "Sim" ? "contínuo" : "não contínuo"}`;
-        if (maoDeObra === "Sim") resultado += " com dedicação exclusiva de mão de obra";
-        resultado += ".<br>";
+        tipoContratacao += `Contratação de Serviço ${natureza}`;
+        if (continuo === "Sim") tipoContratacao += " Contínuo";
+        else tipoContratacao += " Não Contínuo";
+        if (maoDeObra === "Sim") tipoContratacao += " com dedicação de mão de obra";
       } else {
-        resultado += `Tipo: ${objeto}.<br>`;
+        tipoContratacao += `Contratação de ${objeto}`;
       }
 
-      if (fornecedor === "Não") {
-        resultado += "Modalidade sugerida: Inexigibilidade de licitação.";
-      } else if ((valor === "50" && objeto !== "Obras") || (valor === "100" && objeto === "Obras")) {
-        resultado += "Modalidade sugerida: Dispensa de licitação (art. 75).";
-      } else {
-        if (objeto === "Serviços" && natureza === "Comum") {
-          resultado += "Modalidade sugerida: Pregão Eletrônico.";
-        } else if (objeto === "Obras") {
-          resultado += "Modalidade sugerida: Concorrência.";
-        } else {
-          resultado += "Modalidade sugerida: Avaliar entre Concorrência, Pregão ou outro conforme o caso.";
-        }
-      }
+      if (descricao) tipoContratacao += ` para ${descricao}`;
+      if (vigencia) tipoContratacao += ` com vigência de ${vigencia} ${vigencia === "1" ? "mês" : "meses"}`;
+
+      resultado += tipoContratacao + ".";
 
       document.getElementById("resultado").innerHTML = resultado;
     }
